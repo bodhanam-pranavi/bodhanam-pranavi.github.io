@@ -1,13 +1,21 @@
-{{ config(
-    cluster_by ="customer_id",
-    materialized="table",
-    alias="     partitioned_table_ib_tasks_taskgof    ",
-    partition_by={"field": "order_date",
-      "data_type": "DATE",
-      "granularity": "day"}
+
+
+
+{{
+    config(
+        alias="effected_objects_config",
+        materialized='external_table',
+        upload_as='external_table', 
+        uri='https://docs.google.com/spreadsheets/d/1Yb0pcibqrmtheAo45eMnPN6HMpMvITsJ-GoqmJaG-94/edit#gid=0',
+        skip_leading_rows=1,
     )
-}} 
+}}
 
-
-SELECT * from {{ source('dbt_pbodhanam', 'orders') }}
+{%- set schema %}
+        (
+        id INTEGER,
+        name STRING
+        )
+{%- endset %}
+{{schema}}
 
